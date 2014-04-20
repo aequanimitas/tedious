@@ -9,7 +9,7 @@ class TestLanWan < Minitest::Unit::TestCase
   end
  
   def test_page_as_mechpage_instance
-    assert_instance_of Mechanize::Page, @lanwan.page, 'should be an instance of Mechanize::Page'
+    assert_instance_of Mechanize::Page, @lanwan.agent.page, 'should be an instance of Mechanize::Page'
   end 
 
   def test_retrieve
