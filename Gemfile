@@ -4,7 +4,3 @@ source "https://rubygems.org"
 # gem "rails"
 #
 gem 'mechanize'
-
-group :test do
-  gem 'minitest'
-end
