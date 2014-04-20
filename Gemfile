@@ -7,5 +7,4 @@ gem 'mechanize'
 
 group :test do
   gem 'minitest'
-  gem 'fakeweb'
 end
