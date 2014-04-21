@@ -1,6 +1,6 @@
 module Tedious
   class LanWan
-    attr_reader :page, :agent
+    attr_reader :agent
     def initialize url = 'http://127.0.0.1'
       @agent = Mechanize.new
       @url = url
@@ -11,7 +11,7 @@ module Tedious
     end 
 
     def retrieve
-      @page = @agent.get(@url)
+      @agent.get(@url)
     end
 
     def content_type_set?
