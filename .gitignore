@@ -3,3 +3,5 @@
 config
 Gemfile.lock
 ruby
+.env
+*.swo
