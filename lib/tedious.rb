@@ -6,7 +6,11 @@ require 'dotenv'
 module Tedious
   class Network
     class Route; end
-    class Router
+    class Globe
+      attr_accessor :router_ip
+      def initialize router_ip
+        @router_ip = router_ip
+      end
       def reboot
         uri = URI.parse ENV['ROUTER_URL']
         hash = {
@@ -24,14 +28,13 @@ module Tedious
         http.request(request)
       end
 
+      def stats
+        {}
+      end
       def self.down?
         # begin rescue end
         # return Net::HTTP.get_response(uri).code != "200" 
       end
     end
   end
-end
-
-class Globe < Tedious::Network::Router
-  Dotenv.load
 end

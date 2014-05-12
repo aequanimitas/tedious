@@ -4,7 +4,6 @@ source "https://rubygems.org"
 # gem "rails"
 #
 gem 'dotenv'
-
 group :test do
   gem 'pry'
 end
