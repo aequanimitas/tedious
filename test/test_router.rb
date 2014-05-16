@@ -1,9 +1,11 @@
 require 'minitest/autorun'
-require 'minitest/autorun'
 require_relative '../lib/tedious'
+require_relative 'utils'
 
 describe 'router' do
-  @url = "http://192.168.254.254"
+  before do
+    @server = 
+  end
   describe "#stats" do
     it "should have a downstream key" do
       router = Tedious::Network::Globe.new @url
@@ -16,4 +18,5 @@ describe 'router' do
     # when the index page is retrieved
     # then it should have the current stats of the router" 
   end
+
 end
