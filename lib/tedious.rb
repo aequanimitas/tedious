@@ -10,7 +10,7 @@ module Tedious
     class Globe
       attr_accessor :router_url, :query_hash
       def initialize options = {}
-        @router_url = options['router_url'] || URI.parse(ENV['ROUTER_URL'])
+        @router_url = URI.parse options['router_url'] || ENV['ROUTER_URL']
         @query_hash = {
             'reboot' => ENV['QPARAM_REBOOT'],
             'encap' => ENV['QPARAM_ENCAP'],
@@ -18,12 +18,13 @@ module Tedious
             'password' => ENV['QPARAM_PASSWORD'],
             'submit-url' => ENV['QPARAM_SUBMIT_URL']
         }
+
         @user_credentials = { 'username' => options['username'] || ENV['BASIC_AUTH_USERNAME'],
                               'password' => options['pass'] || ENV['BASIC_AUTH_PASSWORD']
                             }
       end
       def reboot
-        http = Net::HTTP.new @router_url
+        http = Net::HTTP.new @router_url.host
         request = Net::HTTP::Post.new @router_url.path
         request.set_form_data(@query_hash)
         request.basic_auth @user_credentials['username'], @user_credentials['password']
