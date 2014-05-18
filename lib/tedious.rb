@@ -2,15 +2,13 @@ require 'net/http'
 require 'uri'
 require 'dotenv'
 
-Dotenv.load
-
 module Tedious
   class Network
     class Route; end
-    class Globe
-      attr_accessor :router_url, :query_hash
+    class Router
+      attr_accessor :url, :query_hash
       def initialize options = {}
-        @router_url = URI.parse options['router_url'] || ENV['ROUTER_URL']
+        @url = URI.parse options['url'] || ENV['ROUTER_URL']
         @query_hash = {
             'reboot' => ENV['QPARAM_REBOOT'],
             'encap' => ENV['QPARAM_ENCAP'],
@@ -23,9 +21,17 @@ module Tedious
                               'password' => options['pass'] || ENV['BASIC_AUTH_PASSWORD']
                             }
       end
+  
+      def url=(url)
+        @url = url
+      end 
+
+      def up?
+        Net::HTTP.get_response @url 
+      end
       def reboot
-        http = Net::HTTP.new @router_url.host
-        request = Net::HTTP::Post.new @router_url.path
+        http = Net::HTTP.new @url.host
+        request = Net::HTTP::Post.new @url.path
         request.set_form_data(@query_hash)
         request.basic_auth @user_credentials['username'], @user_credentials['password']
         http.request(request)
