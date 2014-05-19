@@ -1,6 +1,5 @@
 require 'net/http' 
 require 'uri'
-require 'dotenv'
 
 module Tedious
   class Network
