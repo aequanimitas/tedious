@@ -15,3 +15,7 @@ end
 Then /it should respond with OK/ do
   @router.up? == true
 end
+
+Given /I have a router/ do
+  @router.respond_to? 'add_route'
+end
