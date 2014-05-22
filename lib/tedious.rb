@@ -12,7 +12,7 @@ module Tedious
       end 
 
       def up?
-        Net::HTTP.get_response @url 
+        Net::HTTP.get_response(@url).code
       end
     end
   end
