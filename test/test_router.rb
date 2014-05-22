@@ -7,6 +7,19 @@ describe 'Router' do
     @router = Tedious::Network::Router.new
     @url = 'http://192.168.254.254'
   end
+  describe 'adding routes' do
+    # given a router instance
+    # when I call the route method
+    # then it should be able to create a route
+    # and accpets 3 arguments route_name, route_path, route_action
+    it '#route' do
+      @router.must_respond_to :route
+    end
+    it 'accepts 3 arguments' do
+      @router.route('reboot', '/reboot')
+      
+    end
+  end
   describe 'access with no credentials' do
     # Given a router instance
     # When I supply with a URL

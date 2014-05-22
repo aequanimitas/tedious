@@ -11,6 +11,8 @@ module Tedious
         @url = URI.parse url
       end 
 
+      def route name, path
+      end
       def up?
         Net::HTTP.get_response(@url).code
       end
