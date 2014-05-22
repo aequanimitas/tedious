@@ -17,7 +17,14 @@ describe 'Router' do
     end
     it 'accepts 3 arguments' do
       @router.route('reboot', '/reboot')
-      
+    end
+    describe "the routes hash" do
+      it '#routes' do
+        @router.must_respond_to :routes
+      end
+      it '#routes should be a hash' do
+        @router.routes.class.name.must_equal 'Hash'
+      end
     end
   end
   describe 'access with no credentials' do
