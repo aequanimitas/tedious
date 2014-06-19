@@ -1,31 +1,8 @@
-require 'minitest/autorun'
-require_relative '../lib/tedious'
 require_relative 'utils'
 
 describe 'Router' do
   before do
     @router = Tedious::Network::Router.new
-    @url = 'http://192.168.254.254'
-  end
-  describe 'adding routes' do
-    # given a router instance
-    # when I call the route method
-    # then it should be able to create a route
-    # and accpets 3 arguments route_name, route_path, route_action
-    it '#route' do
-      @router.must_respond_to :route
-    end
-    it 'accepts 3 arguments' do
-      @router.route('reboot', '/reboot')
-    end
-    describe "the routes hash" do
-      it '#routes' do
-        @router.must_respond_to :routes
-      end
-      it '#routes should be a hash' do
-        @router.routes.class.name.must_equal 'Hash'
-      end
-    end
   end
   describe 'access with no credentials' do
     # Given a router instance
@@ -41,5 +18,10 @@ describe 'Router' do
         @router.up?.must_equal '200'
       end
     end
+  end
+  describe 'accessing with credentials' do
+    # Given a router instance
+    # When creating an instance of the Router class
+    # Then it should accept 3 arguments
   end
 end
