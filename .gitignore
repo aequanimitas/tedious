@@ -7,3 +7,4 @@ ruby
 *.swo
 *.swn
 .idea
+settings.yml
