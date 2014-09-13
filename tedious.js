@@ -29,16 +29,15 @@ function reboot() {
 }
 
 function index() {
-  var req = http.request(options, function(res) {
+  http.request(options, function(res) {
+    var str = '';
     res.on('data', function(chunk) {
-      console.log(chunk);
+      str += chunk;
     });
-  });
-  req.write("data\n")
-  req.on('error', function(e) {
-    console.log('problem with request: ' + e.message)
-  });
-  req.end();
+    res.on('end', function () {
+      console.log(str);
+    });
+  }).end();
 }
 
 function Route(path, fn) {
@@ -53,7 +52,7 @@ var available_routes = {
   "root": new Route(
     '/',
     index)
-}
+};
 
 console.log(available_routes);
 
