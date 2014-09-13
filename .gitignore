@@ -8,3 +8,4 @@ ruby
 *.swn
 .idea
 settings.yml
+settings.json
