@@ -3,10 +3,6 @@ var http = require("http"),
     querystring = require("querystring"),
     file = __dirname + "/settings.json";
 
-var form_data = querystring.stringify({
-  "rebootMode" :  "0", "reboot" :  "Reboot", "submit-url" :  "reboot.asp"
-}); 
-
 var options = {
   host: "192.168.254.254",
   path: "/goform/admin/formReboot",
@@ -20,7 +16,16 @@ var options = {
 fs.readFile(file, function (err,data) {
   var data = JSON.parse(data);
   options.auth = data.username + ":" + data.password;
+});
+
+
+// make this a callback fn
+function reboot() {
+  var form_data = querystring.stringify({
+    "rebootMode" :  "0", "reboot" :  "Reboot", "submit-url" :  "reboot.asp"
+  }); 
   var req = http.request(options, function(res) {});
   req.write(form_data);
   req.end();
-});
+}
+
