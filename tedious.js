@@ -28,6 +28,19 @@ function reboot() {
   req.end();
 }
 
+function index() {
+  var req = http.request(options, function(res) {
+    res.on('data', function(chunk) {
+      console.log(chunk);
+    });
+  });
+  req.write("data\n")
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message)
+  });
+  req.end();
+}
+
 function Route(path, fn) {
   this.path = path;
   this.fn = fn;
@@ -36,11 +49,14 @@ function Route(path, fn) {
 var available_routes = {
   "reboot": new Route(
     '/goform/admin/formReboot',
-    reboot
-  )
+    reboot),
+  "root": new Route(
+    '/',
+    index)
 }
 
 console.log(available_routes);
-http.request(options,function(res) {
-  console.log(res);
-}).end();
+
+(function() {
+  index();
+})();
