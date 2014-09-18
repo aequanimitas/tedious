@@ -28,14 +28,15 @@ function reboot() {
   req.end();
 }
 
-function index() {
+function index(path) {
+  options.path = path;
   http.request(options, function(res) {
     var str = '';
     res.on('data', function(chunk) {
       str += chunk;
     });
     res.on('end', function () {
-      console.log(str);
+      console.log(typeof str);
     });
   }).end();
 }
@@ -50,12 +51,14 @@ var available_routes = {
     '/goform/admin/formReboot',
     reboot),
   "root": new Route(
-    '/',
+    '/globe_setup_1pwn1.asp',
     index)
 };
 
-console.log(available_routes);
+function argument_switch(arg) {
+  available_routes[arg].fn(available_routes[arg].path)
+}
 
 (function() {
-  index();
+  argument_switch(process.argv[2]);
 })();
