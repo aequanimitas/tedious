@@ -1,0 +1,8 @@
+var config = {
+  "router": {}
+}
+
+config.router.username = "username";
+config.router.password = "password";
+
+module.exports = config;
