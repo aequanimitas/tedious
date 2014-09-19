@@ -1,21 +1,7 @@
 var http = require('http'),
     fs   = require('fs'),
     querystring = require('querystring'),
-    file = __dirname + '/settings.json';
-
-var options = {
-  host: '192.168.254.254',
-  path: '',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Content-Length': ''
-  }  
-};
-
-fs.readFile(file, function (err,data) {
-  var data = JSON.parse(data);
-  options.auth = data.username + ':' + data.password;
-});
+    config = require('./config');
 
 
 // make this a callback fn
@@ -23,20 +9,20 @@ function reboot() {
   var form_data = querystring.stringify({
     'rebootMode' :  '0', 'reboot' :  'Reboot', 'submit-url' :  'reboot.asp'
   }); 
-  var req = http.request(options, function(res) {});
+  var req = http.request(config.router , function(res) {});
   req.write(form_data);
   req.end();
 }
 
 function index(path) {
-  options.path = path;
-  http.request(options, function(res) {
+  config.router.path = path;
+  http.request(config.router, function(res) {
     var str = '';
     res.on('data', function(chunk) {
       str += chunk;
     });
     res.on('end', function () {
-      console.log(typeof str);
+      console.log(str);
     });
   }).end();
 }

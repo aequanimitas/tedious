@@ -2,6 +2,7 @@ var config = {
   "router": {}
 }
 
+config.router.host = "127.0.0.1";
 config.router.username = "username";
 config.router.password = "password";
 
