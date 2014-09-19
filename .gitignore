@@ -1,12 +1,6 @@
 *.swp
 .DS_Store
-config
-Gemfile.lock
-ruby
-.env
 *.swo
 *.swn
-.idea
-settings.yml
-settings.json
 pseud*
+config.js
