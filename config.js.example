@@ -1,5 +1,7 @@
 var config = {
-  "router": {}
+  "router": {
+    "auth" : {}
+  }
 }
 
 config.router.host = "127.0.0.1";

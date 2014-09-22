@@ -5,11 +5,20 @@ var http = require('http'),
 
 
 // make this a callback fn
-function reboot() {
+function reboot(path) {
+  config.router.path = path;
   var form_data = querystring.stringify({
     'rebootMode' :  '0', 'reboot' :  'Reboot', 'submit-url' :  'reboot.asp'
   }); 
-  var req = http.request(config.router , function(res) {});
+  var req = http.request(config.router , function(res) {
+      var str = "";
+      res.on("data", function(chunk) {
+        str += chunk;
+      });
+      res.on("end", function () {
+        console.log(str); 
+      });
+  });
   req.write(form_data);
   req.end();
 }
