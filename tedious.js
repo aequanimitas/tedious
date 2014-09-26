@@ -3,8 +3,6 @@ var http = require('http'),
     querystring = require('querystring'),
     config = require('./config');
 
-
-// make this a callback fn
 function reboot(path) {
   config.router.path = path;
   var form_data = querystring.stringify({
@@ -23,39 +21,13 @@ function reboot(path) {
   req.end();
 }
 
-function index(path) {
+/* A http request wrapper procedure for retrieving data from router page */
+function retrieve(path) {
   config.router.path = path;
   http.request(config.router, function(res) {
     var str = '';
     res.on('data', function(chunk) {
       str += chunk;
-    });
-    res.on('end', function () {
-      console.log(str);
-    });
-  }).end();
-}
-
-function devices(path) {
-  config.router.path = path;
-  http.request(config.router, function(res) {
-    var str = '';
-    res.on('data', function(chunk) {
-      str += chunk;
-    });
-    res.on('end', function () {
-      console.log(str);
-    });
-  }).end();
-}
-
-function stats(path) {
-  config.router.path = path;
-  http.request(config.router, function(res) {
-    var str = '';
-    res.on('data', function(chunk) {
-      str += chunk;
-      console.log(str);
     });
     res.on('end', function () {
       console.log(str);
@@ -72,12 +44,12 @@ var available_routes = {
   "reboot": new Route(
     '/goform/admin/formReboot',
     reboot),
-  "devices": new Route(
+  "clients": new Route(
     '/admin/wlstatbl.asp',
-    devices),
+    retrieve),
   "stats": new Route(
     '/adsl-statis.asp',
-    stats)
+    retrieve)
 };
 
 function argument_switch(arg) {
