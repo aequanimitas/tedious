@@ -29,6 +29,21 @@ function index(path) {
     var str = '';
     res.on('data', function(chunk) {
       str += chunk;
+      console.log(str);
+    });
+    res.on('end', function () {
+      console.log(str);
+    });
+  }).end();
+}
+
+function stats(path) {
+  config.router.path = path;
+  http.request(config.router, function(res) {
+    var str = '';
+    res.on('data', function(chunk) {
+      str += chunk;
+      console.log(str);
     });
     res.on('end', function () {
       console.log(str);
@@ -47,11 +62,19 @@ var available_routes = {
     reboot),
   "root": new Route(
     '/globe_setup_1pwn1.asp',
-    index)
+    index),
+  "stats": new Route(
+    '/adsl-statis.asp',
+    stats)
 };
 
 function argument_switch(arg) {
-  available_routes[arg].fn(available_routes[arg].path)
+  if (arg == undefined || available_routes[arg] == undefined) {
+    console.log("Choices are reboot, root and stats");
+    return 0;
+  } else {
+    available_routes[arg].fn(available_routes[arg].path)
+  }
 }
 
 (function() {
