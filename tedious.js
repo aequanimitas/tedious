@@ -1,14 +1,15 @@
 var http = require('http'),
     fs   = require('fs'),
     querystring = require('querystring'),
-    config = require('./config');
+    retrieve = require("./router").retrieve,
+    config = require('./config')
 
 function reboot(path) {
-  config.router.path = path;
+  config.path = path;
   var form_data = querystring.stringify({
     'rebootMode' :  '0', 'reboot' :  'Reboot', 'submit-url' :  'reboot.asp'
   }); 
-  var req = http.request(config.router , function(res) {
+  var req = http.request(config.router, function(res) {
       var str = "";
       res.on("data", function(chunk) {
         str += chunk;
@@ -19,20 +20,6 @@ function reboot(path) {
   });
   req.write(form_data);
   req.end();
-}
-
-/* A http request wrapper procedure for retrieving data from router page */
-function retrieve(path) {
-  config.router.path = path;
-  http.request(config.router, function(res) {
-    var str = '';
-    res.on('data', function(chunk) {
-      str += chunk;
-    });
-    res.on('end', function () {
-      console.log(str);
-    });
-  }).end();
 }
 
 function Route(path, fn) {
@@ -50,14 +37,14 @@ var available_routes = {
   "stats": new Route(
     '/adsl-statis.asp',
     retrieve)
-};
+}
 
 function argument_switch(arg) {
   if (arg == undefined || available_routes[arg] == undefined) {
-    console.log("Choices are reboot, devices and stats");
-    return 0;
+    console.log("Here's a list of what tasks I can do with: " + Object.keys(available_routes));
   } else {
-    available_routes[arg].fn(available_routes[arg].path)
+    config.router.path = available_routes[arg].path;
+    available_routes[arg].fn(config.router);
   }
 }
 
