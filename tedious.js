@@ -1,7 +1,9 @@
 var http = require('http'),
     fs   = require('fs'),
     querystring = require('querystring'),
-    retrieve = require("./router").retrieve,
+    router = require("./router"),
+    retrieve = router.Retrieve,
+    Route = router.Route,
     config = require('./config')
 
 function reboot(path) {
@@ -20,11 +22,6 @@ function reboot(path) {
   });
   req.write(form_data);
   req.end();
-}
-
-function Route(path, fn) {
-  this.path = path;
-  this.fn = fn;
 }
 
 var available_routes = {
