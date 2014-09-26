@@ -1,11 +1,10 @@
 var config = {
   "router": {
-    "auth" : {}
+    "auth" : {},
+    "headers": {"Authorization": "Basic " + new Buffer("username:password").toString("base64")}
   }
 }
 
 config.router.host = "127.0.0.1";
-config.router.username = "username";
-config.router.password = "password";
 
 module.exports = config;
