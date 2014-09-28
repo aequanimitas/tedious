@@ -12,7 +12,9 @@ function reboot(options) {
   });
   options["headers"]["Content-Type"] = "application/x-www-form-urlencoded";
   options["headers"]["Referer"] = "http://192.168.254.254/reboot.asp";
-  options.path += '?' + form_data;
+  options["headers"]["Content-Length"] = Buffer.byteLength(form_data);
+  options["method"] = "POST";
+  // options.path += '?' + form_data;
   var callback = function(res) {
       var str = "";
       res.on("data", function(chunk) {
