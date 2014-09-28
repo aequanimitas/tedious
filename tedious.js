@@ -6,12 +6,11 @@ var http = require('http'),
     Route = router.Route,
     config = require('./config')
 
-function reboot(path) {
-  config.path = path;
+function reboot(options) {
   var form_data = querystring.stringify({
     'rebootMode' :  '0', 'reboot' :  'Reboot', 'submit-url' :  'reboot.asp'
-  }); 
-  var req = http.request(config.router, function(res) {
+  });
+  var req = http.request(options, function(res) {
       var str = "";
       res.on("data", function(chunk) {
         str += chunk;
@@ -26,7 +25,7 @@ function reboot(path) {
 
 var available_routes = {
   "reboot": new Route(
-    '/goform/admin/formReboot',
+    '/goform/admin/formReboot?rebootMode=0&reboot=Reboot&submit-url=reboot.asp',
     reboot),
   "clients": new Route(
     '/admin/wlstatbl.asp',
