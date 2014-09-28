@@ -10,7 +10,10 @@ function reboot(options) {
   var form_data = querystring.stringify({
     'rebootMode' :  '0', 'reboot' :  'Reboot', 'submit-url' :  'reboot.asp'
   });
-  var req = http.request(options, function(res) {
+  options["headers"]["Content-Type"] = "application/x-www-form-urlencoded";
+  options["headers"]["Referer"] = "http://192.168.254.254/reboot.asp";
+  options.path += '?' + form_data;
+  var callback = function(res) {
       var str = "";
       res.on("data", function(chunk) {
         str += chunk;
@@ -18,14 +21,19 @@ function reboot(options) {
       res.on("end", function () {
         console.log(str); 
       });
-  });
+      res.on("response", function (data) {
+        console.log(response);
+      });
+  };
+
+  var req = http.request(options, callback);
   req.write(form_data);
   req.end();
 }
 
 var available_routes = {
   "reboot": new Route(
-    '/goform/admin/formReboot?rebootMode=0&reboot=Reboot&submit-url=reboot.asp',
+    '/goform/admin/formReboot',
     reboot),
   "clients": new Route(
     '/admin/wlstatbl.asp',
