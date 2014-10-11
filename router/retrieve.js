@@ -1,7 +1,7 @@
 var http = require("http");
 
 function retrieve(options) {
-  http.get(options, function(res) {
+  http.request(options, function(res) {
     var str = '';
     res.on('data', function(chunk) {
       str += chunk;
@@ -9,7 +9,7 @@ function retrieve(options) {
     res.on('end', function () {
       console.log(str);
     });
-  });
+  }).end();
 }
 
 module.exports = retrieve;

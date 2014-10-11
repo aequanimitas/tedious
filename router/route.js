@@ -1,4 +1,4 @@
-function Route(path, fn) {
+function Route(path, fn, c) {
   this.path = path;
   this.fn = fn;
 }
