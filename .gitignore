@@ -4,3 +4,8 @@
 *.swn
 pseud*
 config.js
+bin/
+exit/
+include/
+lib/
+local/
