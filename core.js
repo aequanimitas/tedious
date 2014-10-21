@@ -1,47 +1,39 @@
 var EventEmitter = require("events").EventEmitter; 
-    http = require("http"),
-    util = require("util");
+    util = require("util"),
+    client = require("./client"),
+    DataFeed = require("./feed");
 
-var Task = function(options){
-  this.options = options;
-};
-
-var Client = function(task) {
-  var client = http.request(task.options, function(res) {
-    var d = "";
-    res.on("data", function(res) {
-      d += res;
-    });
-    res.on("end", function(res) {
-      console.log("ye?");
-      task.emit("data:received", d)
-    });
-  });
-  client.end(); 
+function Reddit() {
+  this.host = "www.reddit.com";
+  this.path = "/r/";
+  DataFeed.apply(this, Array.prototype.slice.call(arguments));
 }
 
-var Parser = function () {}
+Reddit.prototype = new DataFeed();
 
-util.inherits(Task, EventEmitter);
+Reddit.prototype.redata = function (data) {
+  this.data = data;
+  return JSON.parse(data).data.children;
+}
 
-Task.prototype.report = function (data, cb) {
-  if (cb === undefined) {
-    console.log("Default reporter");
-    console.log(data);
+Reddit.prototype.report = function (data) {
+  for (var x = 0; x < data.length; x += 1) {
+    console.log(data[x].data.title);
+    console.log(data[x].data.url);
+    console.log("" + this.host+data[x].data.permalink);
+    console.log("\n");
   }
-};
-
-var reddit = new Task({
-  "host": "www.reddit.com",
-  "path": "/r/" + "nba" + ".json"
-});
-
-reddit.addListener("data:received", function(data) {
-  this.report(data);
-});
-var future_socket = function () {
-  var welcome_message = "Hi!";
-  
 }
 
-Client(reddit);
+var nba = new Reddit({
+  "sub": "nba",
+  "format": ".json" 
+});
+
+
+function Router() {
+  this.host = "192.168.254.254";
+  this.path = "";
+}
+
+client(nba);
