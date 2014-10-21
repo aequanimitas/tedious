@@ -1,7 +1,7 @@
 var EventEmitter = require("events").EventEmitter,
     util = require("util");
 
-var DataFeed = function (options) {
+function DataFeed(options) {
   this.prop = (typeof options !== "object") ? {} : options;
   this.host = this.host || this.prop.url;
   this.path = this.prop.path || this.path + this.prop.sub;
