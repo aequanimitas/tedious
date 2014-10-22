@@ -1,5 +1,4 @@
-var EventEmitter = require("events").EventEmitter; 
-    client = require("./client");
+var client = require("./client"),
     Reddit = require("./reddit");
 
 var nba = new Reddit({
@@ -12,4 +11,4 @@ function Router() {
   this.path = "";
 }
 
-client(nba);
+client(nba)

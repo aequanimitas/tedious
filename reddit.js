@@ -1,6 +1,6 @@
 var DataFeed = require("./feed");
 
-function Reddit() {
+var Reddit = function() {
   this.host = "www.reddit.com";
   DataFeed.apply(this, Array.prototype.slice.call(arguments));
   this.path = this.prop.sub || "";  
