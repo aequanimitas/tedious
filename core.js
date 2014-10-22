@@ -3,7 +3,7 @@ var EventEmitter = require("events").EventEmitter;
     Reddit = require("./reddit");
 
 var nba = new Reddit({
-  "sub": "nba",
+  "sub": "/r/nba",
   "format": ".json" 
 });
 

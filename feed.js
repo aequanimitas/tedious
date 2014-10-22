@@ -3,8 +3,7 @@ var EventEmitter = require("events").EventEmitter,
 
 function DataFeed(options) {
   this.prop = (typeof options !== "object") ? {} : options;
-  this.host = this.host || this.prop.url;
-  this.path = this.prop.path || this.path + this.prop.sub;
+  this.host = this.host || this.prop.url || "127.0.0.1";
   this.format = this.prop.format || ".json";
 }
 
