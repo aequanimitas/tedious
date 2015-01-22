@@ -4,6 +4,7 @@ import traceback
 import sys
 
 SETTINGS = json.load(open("settings.json"))
+print SETTINGS
 
 class Router(object):
 
@@ -24,7 +25,6 @@ class Router(object):
         ## Add logging here
         return r
   
-  
     def stats(self):
         index = html.fromstring(self.router.text)
         frame = {"main":"", "page":"", "tree":"", "stats": [], "latest": None}
@@ -41,7 +41,7 @@ class Router(object):
         frame["latest"] = self.latest(frame["stats"])
         self.frames["stat"] = frame
         return frame["latest"]
-  
+ 
     def to_nonbreaking(self, val):
         return val.replace("\xc2\xa0", " ")
   
