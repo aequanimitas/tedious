@@ -3,10 +3,9 @@ from lxml import html
 import traceback
 import sys
 
-SETTINGS = json.load(open("settings.json"))
-print SETTINGS
-
-class Router(object):
+class Groute(object):
+    SETTINGS = json.load(open("settings.json"))
+    ROUTER = SETTINGS["settings"]["router"]
 
     stat = {"page": "", "tree": ""}
     sample = None
@@ -14,14 +13,14 @@ class Router(object):
     frames = {}
   
     def __init__(self):
-        self.router = requests.get(SETTINGS["settings"]["router"]["ip"])
+        self.router = requests.get(self.ROUTER["ip"])
   
     def reboot(self):
-        r = requests.post(SETTINGS["settings"]["router"]["pages"]["reboot"],
-                          data=SETTINGS["settings"]["router"]["creds"],
-                          headers=SETTINGS["settings"]["router"]["header"],
-                          auth=(SETTINGS["settings"]["router"]["username"],
-                                 SETTINGS["settings"]["router"]["password"]))
+        r = requests.post(self.ROUTER["pages"]["reboot"],
+                          data=self.ROUTER["creds"],
+                          headers=self.ROUTER["header"],
+                          auth=(self.ROUTER["username"],
+                                 self.ROUTER["password"]))
         ## Add logging here
         return r
   
