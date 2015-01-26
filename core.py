@@ -31,9 +31,18 @@ class Groute(object):
         frame["page"] = requests.get(self.router.url + frame["main"].get('src'))
         frame["tree"] = html.fromstring(frame["page"].text)
         temp = self.remove_frame_headers(self.extract_fields(frame["tree"]))
-        temp = zip(temp[::2],temp[1::2])
-        return temp
- 
+        return zip(temp[::2],temp[1::2])
+
+    def rm_extra_info(self):
+        return self.stats()[:18]
+
+    def raw_stat_to_dict(self, stat):
+        return { stat[0].getchildren()[0].getchildren()[0].text :
+                 stat[1].getchildren()[0].text }
+
+    def stats_pp(self):
+        return map(self.raw_stat_to_dict, self.rm_extra_info())
+
     def to_nonbreaking(self, val):
         return val.replace("\xc2\xa0", " ")
   
