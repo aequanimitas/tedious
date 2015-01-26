@@ -30,13 +30,9 @@ class Groute(object):
         frame["main"] = self.get_frame('view', index.xpath('//frame'))[0]
         frame["page"] = requests.get(self.router.url + frame["main"].get('src'))
         frame["tree"] = html.fromstring(frame["page"].text)
-        temp = filter(lambda x: x.getchildren()[0].getchildren() is not None, 
-                      frame["tree"].xpath("//tr//td")[1:])
-        # before zipping
-        # clean up headers
-        # remove stat name if it is not in list
-        return temp
+        temp = self.remove_frame_headers(self.extract_fields(frame["tree"]))
         temp = zip(temp[::2],temp[1::2])
+        return temp
  
     def to_nonbreaking(self, val):
         return val.replace("\xc2\xa0", " ")
@@ -48,9 +44,11 @@ class Groute(object):
         return filter(lambda x: x.get('name') == frame_name, frames)
   
     def remove_frame_headers(self, stats):
-        del stats[stats.index('WAN Configuration'):len(stats) - 1]
-        del stats[stats.index('DSL')]
-        del stats[stats.index(' LAN Configuration ')]
+        return filter(lambda x: 'background' not in x.attrib, stats)
+
+    def extract_fields(self,stats):
+        return filter(lambda x: x.getchildren()[0].getchildren() is not None, 
+                      stats.xpath("//tr//td")[1:])
 
 class Page(object):
     pass
