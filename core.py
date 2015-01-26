@@ -23,23 +23,20 @@ class Groute(object):
                                  self.ROUTER["password"]))
         ## Add logging here
         return r
-  
+
     def stats(self):
         index = html.fromstring(self.router.text)
         frame = {"main":"", "page":"", "tree":"", "stats": [], "latest": None}
         frame["main"] = self.get_frame('view', index.xpath('//frame'))[0]
         frame["page"] = requests.get(self.router.url + frame["main"].get('src'))
         frame["tree"] = html.fromstring(frame["page"].text)
-  
-        for i,x in enumerate(frame["tree"].xpath("//tr//td")[1:]):
-            z = x.getchildren()[0]
-            z_has_kids = len(z.getchildren()) > 0
-            frame["stats"].append(z.getchildren()[0].text if z_has_kids else z.text)
-  
-        self.remove_frame_headers(frame["stats"])
-        frame["latest"] = self.latest(frame["stats"])
-        self.frames["stat"] = frame
-        return frame["latest"]
+        temp = filter(lambda x: x.getchildren()[0].getchildren() is not None, 
+                      frame["tree"].xpath("//tr//td")[1:])
+        # before zipping
+        # clean up headers
+        # remove stat name if it is not in list
+        return temp
+        temp = zip(temp[::2],temp[1::2])
  
     def to_nonbreaking(self, val):
         return val.replace("\xc2\xa0", " ")
