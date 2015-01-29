@@ -20,9 +20,14 @@ class Groute(object):
                           data=self.ROUTER["creds"],
                           headers=self.ROUTER["header"],
                           auth=(self.ROUTER["username"],
-                                 self.ROUTER["password"]))
+                                self.ROUTER["password"]))
         ## Add logging here
         return r
+
+    def active_clients(self):
+        return requests.get(self.ROUTER["pages"]["active_clients"],
+                            auth=(self.ROUTER["username"], 
+                                  self.ROUTER["password"]))
 
     def stats(self):
         index = html.fromstring(self.router.text)
@@ -33,21 +38,30 @@ class Groute(object):
         temp = self.remove_frame_headers(self.extract_fields(frame["tree"]))
         return zip(temp[::2],temp[1::2])
 
-    def rm_extra_info(self):
+    def remove_extra_info(self):
         return self.stats()[:18]
 
+    def get_stat_name(self, stat):
+        return stat.getchildren()[0].getchildren()[0].text
+
+    def get_stat_value(self, stat, stat_name):
+        if stat_name in ['Name Servers', 'Default Gateway']:
+            return self.get_stat_name(stat).strip()
+        else:
+            return stat.getchildren()[0].text.strip()
+
     def raw_stat_to_dict(self, stat):
-        return { stat[0].getchildren()[0].getchildren()[0].text :
-                 stat[1].getchildren()[0].text }
+        stat_name = self.get_stat_name(stat[0])
+        stat_value = self.get_stat_value(stat[1], stat_name)
+        return { stat_name : stat_value }
 
     def stats_pp(self):
-        return map(self.raw_stat_to_dict, self.rm_extra_info())
+        return reduce(lambda x,y: x.update(y) or x, 
+                      map(self.raw_stat_to_dict, self.remove_extra_info()), 
+                      {})
 
     def to_nonbreaking(self, val):
         return val.replace("\xc2\xa0", " ")
-  
-    def latest(self, kvstat):
-        return {x:y for (x,y) in zip(kvstat[::2], kvstat[1::2])}
   
     def get_frame(self, frame_name, frames):
         return filter(lambda x: x.get('name') == frame_name, frames)
@@ -61,3 +75,6 @@ class Groute(object):
 
 class Page(object):
     pass
+
+g = Groute()
+# h = html.fromstring(g.active_clients().text)
