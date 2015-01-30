@@ -40,18 +40,21 @@ class Groute(object):
 
     def remove_extra_info(self):
         return self.stats()[:18]
-
-    def get_stat_name(self, stat):
-        return stat.getchildren()[0].getchildren()[0].text
+    
+    def get_eldest(self, stat, level):
+        if not level:
+            return stat.getchildren()[0]
+        else:
+            return self.get_eldest(stat.getchildren()[0], level - 1)
+ 
+    def stat_no_use(self, stat_name):
+        return stat_name in ['Name Servers', 'Default Gateway']
 
     def get_stat_value(self, stat, stat_name):
-        if stat_name in ['Name Servers', 'Default Gateway']:
-            return self.get_stat_name(stat).strip()
-        else:
-            return stat.getchildren()[0].text.strip()
+        return self.get_eldest(stat, int(self.stat_no_use(stat_name))).text.strip()
 
     def raw_stat_to_dict(self, stat):
-        stat_name = self.get_stat_name(stat[0])
+        stat_name = self.get_eldest(stat[0], 1).text
         stat_value = self.get_stat_value(stat[1], stat_name)
         return { stat_name : stat_value }
 
@@ -64,9 +67,6 @@ class Groute(object):
                       map(self.raw_stat_to_dict, self.remove_extra_info()), 
                       {})
 
-    def to_nonbreaking(self, val):
-        return val.replace("\xc2\xa0", " ")
-  
     def get_frame(self, frame_name, frames):
         return filter(lambda x: x.get('name') == frame_name, frames)
   
