@@ -55,7 +55,7 @@ class Groute(object):
 
     def raw_stat_to_dict(self, stat):
         stat_name = self.get_eldest(stat[0], 1).text
-        stat_value = self.get_stat_value(stat[1], stat_name)
+        stat_value = self.get_eldest(stat[1], int(self.stat_no_use(stat_name))).text.strip()
         return { stat_name : stat_value }
 
     def __str__(self):
