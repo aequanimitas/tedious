@@ -59,8 +59,7 @@ class Groute(object):
         return { stat_name : stat_value }
 
     def __str__(self):
-        print "\nCurrent status:\n"
-        return "\n".join("{}: {}".format(k, v) for k,v in self.stats_pp().iteritems())
+        return "\nCurrent status: \n" + "\n".join("{}: {}".format(k, v) for k,v in self.stats_pp().iteritems())
 
     def stats_pp(self):
         return reduce(lambda x,y: x.update(y) or x, 
