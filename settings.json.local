@@ -30,7 +30,11 @@
       }
     },
     "db": {
-      "url": ""
+      "drivername" : "",
+      "database" : "",
+      "username" : "",
+      "password" : "",
+      "host" : ""
     }
   }
 }

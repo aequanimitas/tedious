@@ -4,6 +4,7 @@ from sqlalchemy import (
     func
 )
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.engine.url import URL
 
 Base = declarative_base()
 
@@ -31,6 +32,6 @@ class Bandwidth(Base):
 
 def create_tables():
     from sqlalchemy import create_engine
-    engine = create_engine(SETTINGS["settings"]["db"]["url"], echo=True)
+    engine = create_engine(URL(**SETTINGS["settings"]["db"]), echo=True)
     Base.metadata.create_all(engine)
 
