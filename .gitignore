@@ -2,14 +2,8 @@
 .DS_Store
 *.swo
 *.swn
-pseud*
-config.js
-bin/
-exit/
-include/
-lib/
-local/
+*.pyc
+*.json
 settings.json
-core.pyc
-groute
+groute.sqlite
 backup/
