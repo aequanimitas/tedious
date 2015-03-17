@@ -4,6 +4,6 @@
 *.swn
 *.pyc
 *.json
+*.sqlite
 settings.json
-groute.sqlite
 backup/

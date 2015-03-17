@@ -1,12 +1,13 @@
+import json
 from sqlalchemy import (
     Column, Integer, String, DateTime,
-    func,
-    create_engine
+    func
 )
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine("sqlite:///groute", echo=True)
 Base = declarative_base()
+
+SETTINGS = json.load(open("settings.json"))
 
 class User(Base):
     __tablename__ = "users"
@@ -17,6 +18,8 @@ class WifiPass(Base):
     __tablename__ = "wifi_pass"
     id = Column(Integer, primary_key=True)
     password = Column(String(50))
+    change_date = Column(DateTime)
+    expiry = Column(DateTime)
     
 class Bandwidth(Base):
     __tablename__ = "bandwidth"
@@ -27,5 +30,7 @@ class Bandwidth(Base):
     
 
 def create_tables():
+    from sqlalchemy import create_engine
+    engine = create_engine(SETTINGS["settings"]["db"]["url"], echo=True)
     Base.metadata.create_all(engine)
 
