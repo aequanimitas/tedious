@@ -7,3 +7,4 @@
 *.sqlite
 settings.json
 backup/
+node_modules
