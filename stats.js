@@ -4,10 +4,11 @@ var infoTable = require("./lib/infotable");
 var exports = module.exports = {};
 
 function statTable(dom) {
-  var dom = cheerio.load(dom)("table");
-  Array.prototype.forEach.call(dom[0].children, function(e) {
-    console.log(e.html);
-  });
+  var statTable = cheerio.load(dom)("table");
+   console.log(statTable.children()[1]('font b'));
+//  Array.prototype.forEach.call(statTable.children(), function(e) {
+//    console.log(e.text);
+//  });
 }
 
 exports.stat = statTable;

@@ -1,9 +1,10 @@
-var url = require("url");
-var http = require("http");
-var zlib = require("zlib");
-var https = require("https");
-var config = require("./config");
-var stats = require("./stats");
+var http   = require("http"),
+    zlib   = require("zlib"),
+    https  = require("https"),
+    config = require("./config"),
+    urlFix = require("./lib/urlFix"),
+    stats  = require("./stats");
+
 
 function empty(obj) { 
   // check if array or object by calling Object.prototype.toString.apply blah
@@ -32,7 +33,6 @@ function responseEventsHandler(responseHandler) {
     })                             
     .on("end", function() {        
       stats.stat(data);
-      // console.log(data);           
     })
     .on("error", function(err) {
       console.log(err);
@@ -40,7 +40,7 @@ function responseEventsHandler(responseHandler) {
 }
 
 function callback(response) {
-  var data = "",
+  var data     = "",
       resEncod = response.headers['content-encoding'];
   if (resEncod === "gzip") {
     var gzip = zlib.createGunzip();
@@ -60,4 +60,4 @@ function grab(options) {
   }
 };
 
-grab(url.parse(process.argv[2]));
+grab(urlFix.format(process.argv[2]));

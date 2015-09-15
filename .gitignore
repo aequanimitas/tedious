@@ -8,3 +8,5 @@
 settings.json
 backup/
 node_modules
+spec/helpers/
+spec/jasmine_examples/
