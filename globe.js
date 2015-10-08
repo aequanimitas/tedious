@@ -5,8 +5,8 @@ var http   = require("http"),
     routerUrl = "http://192.168.254.254",
     idxPage = "/globe_setup_1pwn1.asp",
     operations = {
-      reboot: function() { return undefined },
-      active_clients: function() { return undefined },
+      reboot: function() { throw new Error("Not Yet Implemented");  },
+      active_clients: function() { throw new Error("Not Yet Implemented"); },
       stats: function() {
         http.request(routerUrl + idxPage, httpREH).end();
       }
@@ -28,10 +28,8 @@ function httpREH(resHandler) {
 }
 
 function init(operation) {
-  if (operation in operations) {
-    if (operations[operation]() === undefined) {
-      console.log("Operation not yet implemented");
-    }
+  if (operations.hasOwnProperty(operation)) {
+    operations[operation]();
   } else {
     console.log("Operation Unknown");
   }

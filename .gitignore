@@ -2,10 +2,7 @@
 .DS_Store
 *.swo
 *.swn
-*.pyc
-*.json
 *.sqlite
-settings.json
 backup/
 node_modules
 spec/helpers/

@@ -38,7 +38,7 @@ function encodingHandler(response) {
   } else {
     data = responseEventsHandler(response);
   }
-}
+};
 
 exports.extend = function() {
   var source      = arguments[1],
@@ -66,7 +66,11 @@ exports.stats = function(dom) {
     stats[currentKey] = stat[currentKey];
   });
   console.log(stats);
-}
- 
+};
+
+exports.clear = function clear() {
+  process.stdout.write('\u001B[2J\u001B[0;0f');
+};
+
 exports.statPair = statPair;
 exports.getCellText = getCellText;
