@@ -4,31 +4,39 @@ var http   = require("http"),
     helpers = require("./helpers"),
     routerUrl = "http://" + config.auth + "@192.168.254.254",
     idxPage = "/globe_setup_1pwn1.asp",
-    active_client_path = "/admin/wlstatbl.asp",
+    activeClientsPath = "/admin/wlstatbl.asp",
     operations = {
       reboot: function() { throw new Error("Not Yet Implemented");  },
-      active_clients: function() { 
-        helpers.extend(config, url.parse(routerUrl + active_client_path));
-        http.request(config, httpREH).end();
+      clients: function() { 
+        var action = opr(helpers.clients);
+        helpers.extend(config, url.parse(routerUrl + activeClientsPath));
+        http.request(config, action).end();
       },
       stats: function() {
-        http.request(routerUrl + idxPage, httpREH).end();
+        var action = opr(helpers.stats);
+        helpers.extend(config, url.parse(routerUrl + idxPage));
+        http.request(config, action).end();
       }
     }
 
-function httpREH(resHandler) {
+function opr(a) {
+  return function x(b) {
+    return httpREH(b, a);
+  };
+}
+
+function httpREH(res, helperFn) {
   var data = "";
-  if (resHandler.statusCode === 401) {
+  if (res.statusCode === 401) {
      throw new Error("Unauthorized, check credentials in config.js");
   }
-  resHandler
+  res
     .on("data", function(chunk) {  
       data += chunk.toString();
     })                             
     .on("end", function() {        
-      helpers.stats(data);
-      console.log(data);
-      console.log("Success");
+      helperFn(data);
+      console.log("Success!");
     })
     .on("error", function(err) {
       console.log(err);

@@ -65,8 +65,23 @@ exports.stats = function(dom) {
         currentKey = Object.keys(stat)[0];
     stats[currentKey] = stat[currentKey];
   });
+  console.log("Stats");
   console.log(stats);
 };
+
+exports.clients = function(dom) {
+   var $trs = cheerio.load(dom)("tr").filter(function(i, e) { 
+      if (e.attribs.hasOwnProperty('bgcolor') && e.attribs["bgcolor"] === "#b7b7b7") {
+         return e;
+      }});
+  var clients = {};
+  Array.prototype.forEach.call($trs, function(e, i) {
+    var x = cheerio.load(e)("font");
+    clients["Client " + i] = x[0].children[0].data;
+  });
+  console.log("Clients");
+  console.log(clients);
+}
 
 exports.clear = function clear() {
   process.stdout.write('\u001B[2J\u001B[0;0f');
