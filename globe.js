@@ -1,21 +1,21 @@
 var http   = require("http"),
     url    = require("url"),
-    config = require("./config.js.local"),
+    appConfig = require("./appConfig.js.local").client,
     helpers = require("./helpers"),
-    routerUrl = "http://" + config.auth + "@192.168.254.254",
+    routerUrl = appConfig.ip, 
     idxPage = "/globe_setup_1pwn1.asp",
-    activeClientsPath = "/admin/wlstatbl.asp",
+    activeClientsPage = "/admin/wlstatbl.asp",
     operations = {
       reboot: function() { throw new Error("Not Yet Implemented");  },
-      clients: function() { 
+      clients: function() {
         var action = opr(helpers.clients);
-        helpers.extend(config, url.parse(routerUrl + activeClientsPath));
-        http.request(config, action).end();
+        helpers.extend(appConfig, helpers.addAuth(routerUrl + activeClientsPage));
+        http.request(appConfig, action).end();
       },
       stats: function() {
         var action = opr(helpers.stats);
-        helpers.extend(config, url.parse(routerUrl + idxPage));
-        http.request(config, action).end();
+        helpers.extend(appConfig, url.parse(routerUrl + idxPage));
+        http.request(appConfig, action).end();
       }
     }
 
@@ -28,7 +28,7 @@ function opr(a) {
 function httpREH(res, helperFn) {
   var data = "";
   if (res.statusCode === 401) {
-     throw new Error("Unauthorized, check credentials in config.js");
+     throw new Error("Unauthorized, check credentials in appConfig.js");
   }
   res
     .on("data", function(chunk) {  

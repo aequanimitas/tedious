@@ -1,5 +1,7 @@
 var zlib    = require("zlib"),
+    url     = require("url"),
     cheerio = require("cheerio"),
+    appConfig  = require("./appConfig.js.local"),
     exports = module.exports = {};
 
 function statPair(dom) {
@@ -52,6 +54,12 @@ exports.extend = function() {
     sKey = source[sKeys[x]];
     destination[sKeys[x]] = sKey;
   }
+};
+
+exports.addAuth = function(urlPath) {
+  var authUrl = url.parse(urlPath);
+  authUrl.auth = appConfig.client.auth;
+  return authUrl;
 };
 
 exports.stats = function(dom) {
