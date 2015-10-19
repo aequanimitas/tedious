@@ -1,4 +1,5 @@
 var http   = require("http"),
+    exports = module.exports = {},
     url    = require("url"),
     appConfig = require("./appConfig.js.local").client,
     helpers = require("./helpers"),
@@ -51,4 +52,4 @@ function init(operation) {
   }
 };
 
-init(process.argv[2]);
+exports.init = init;
