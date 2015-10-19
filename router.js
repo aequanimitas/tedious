@@ -53,3 +53,4 @@ function init(operation) {
 };
 
 exports.init = init;
+exports.operations = Object.keys(operations);
