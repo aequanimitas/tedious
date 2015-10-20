@@ -3,28 +3,23 @@ var http   = require("http"),
     url    = require("url"),
     appConfig = require("./appConfig.js.local").client,
     helpers = require("./helpers"),
-    routerUrl = appConfig.ip, 
+    routerUrl = appConfig.ip,
+    partial = helpers.partial,
     idxPage = "/globe_setup_1pwn1.asp",
     activeClientsPage = "/admin/wlstatbl.asp",
     operations = {
       reboot: function() { throw new Error("Not Yet Implemented");  },
       clients: function() {
-        var action = opr(helpers.clients);
+        var action = partial(httpREH, helpers.clients);
         helpers.extend(appConfig, helpers.addAuth(routerUrl + activeClientsPage));
         http.request(appConfig, action).end();
       },
       stats: function() {
-        var action = opr(helpers.stats);
+        var action = partial(httpREH, helpers.stats);
         helpers.extend(appConfig, url.parse(routerUrl + idxPage));
         http.request(appConfig, action).end();
       }
     }
-
-function opr(a) {
-  return function x(b) {
-    return httpREH(b, a);
-  };
-}
 
 function httpREH(res, helperFn) {
   var data = "";

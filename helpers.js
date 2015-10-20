@@ -91,9 +91,16 @@ exports.clients = function(dom) {
   console.log(clients);
 }
 
+function partial(aFn, aArgFn) {
+  return function inFn(b) {
+    return aFn(b, aArgFn);
+  }
+}
+
 exports.clear = function clear() {
   process.stdout.write('\u001B[2J\u001B[0;0f');
 };
 
 exports.statPair = statPair;
 exports.getCellText = getCellText;
+exports.partial = partial
