@@ -50,5 +50,5 @@ function init(operation) {
     console.log("Operation Unknown");
   }
 };
-
+console.log(process.argv.slice(0,2));
 init(process.argv[2]);
