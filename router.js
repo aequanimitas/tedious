@@ -1,4 +1,5 @@
 var http   = require("http"),
+    exports = module.exports = {},
     url    = require("url"),
     appConfig = require("./appConfig.js.local").client,
     helpers = require("./helpers"),
@@ -50,5 +51,6 @@ function init(operation) {
     console.log("Operation Unknown");
   }
 };
-console.log(process.argv.slice(0,2));
-init(process.argv[2]);
+
+exports.init = init;
+exports.operations = Object.keys(operations);
