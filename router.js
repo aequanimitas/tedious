@@ -7,6 +7,10 @@ var http   = require("http"),
     partial = helpers.partial,
     idxPage = "/globe_setup_1pwn1.asp",
     activeClientsPage = "/admin/wlstatbl.asp",
+    urlBlocking = "/url_blocking.asp",
+    wirelessSecurity = "/wlwpa_mbssid.htm",
+    wirelessSettingsBasic = "/wlbasic.asp",
+    wirelessAdvancedSettings = "/wladvanced.asp",
     operations = {
       reboot: function() { throw new Error("Not Yet Implemented");  },
       clients: function() {
