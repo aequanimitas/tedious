@@ -52,4 +52,5 @@ function init(operation) {
 };
 
 exports.init = init;
-exports.operations = Object.keys(operations);
+exports.operations = operations;
+exports.name = "router";
