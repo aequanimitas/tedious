@@ -9,14 +9,12 @@ function circular(app, opt, args) {
 }
 
 module.exports = function(app) {
-  var args = app.args;
-
-  if (args.length == 0) {
+  if (app.args.length == 0) {
     app.hasOwnProperty("help") ? app.help() : help(app);
     return;
   }
 
-  circular(app, args[0], args.slice(1));
+  circular(app, app.args[0], app.args.slice(1));
 }
 
 // has subapps
