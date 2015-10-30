@@ -11,7 +11,8 @@ function init() {
   tresdin({
     "name": packageInfo.name,
     "description": packageInfo.description,
-    "subapps": subapps
+    "subapps": subapps,
+    "args": process.argv.slice(2)
   });
 }
 
