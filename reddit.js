@@ -1,3 +1,4 @@
 var exports = module.exports = {};
 
-exports.operations = ["None"];
+exports.operations = {};
+exports.name = "reddit";

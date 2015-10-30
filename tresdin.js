@@ -1,9 +1,13 @@
+var messages = {
+  unOpts: function(m) { return "Unrecognized option: " + m + "\n"; }
+};
 function circular(app, opt, args) {
-  if (isSubapp(app, opt)) {
+  if (opOrApp(app, opt, "subapps")) {
     circular(app.subapps[opt], args[0], args.slice(1));
-  } else if (isOperation(app, opt)) {
+  } else if (opOrApp(app, opt, "operations")) {
     app.operations[opt]();
   } else {
+//    process.stdout.write("Unrecognized option: " + opt);
     help(app);
   }
 }
@@ -17,20 +21,12 @@ module.exports = function(app) {
   circular(app, app.args[0], app.args.slice(1));
 }
 
-// has subapps
-function isSubapp(app,opt) {
-  return !(app.subapps === undefined) && app.subapps.hasOwnProperty(opt);
-}
-
-// has operation
-function isOperation(app,opt) {
-  return app.operations.hasOwnProperty(opt);
+function opOrApp(app, opt, prop) {
+  return !(app[prop] === undefined) && app[prop].hasOwnProperty(opt);
 }
 
 function help(app) {
-  if (app.subapps) {
-    console.log("Available commands for "+ app.name + ": "+ Object.keys(app.subapps).join(", ") + "\n");
-  } else {
-    console.log("Available commands for "+ app.name + ": "+ Object.keys(app.operations).join(", ") + "\n");
-  }
+  var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(", ");
+  if (keyz.length == 0) keyz = "none"
+  process.stdout.write("\nAvailable commands for " + app.name + ": " + keyz + "\n\n")
 }
