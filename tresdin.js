@@ -16,7 +16,7 @@ function circular(app, opt, args) {
   }
 }
 
-exports.sequenced = function(app) {
+exports.sequential = function(app) {
   if (app.args.length == 0) {
     app.hasOwnProperty("help") ? app.help() : help(app);
     return;

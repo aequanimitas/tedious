@@ -8,7 +8,7 @@ var router = require("./router"),
     };
 
 function init() {
-  tresdin.sequenced({
+  tresdin.sequential({
     "name": packageInfo.name,
     "description": packageInfo.description,
     "subapps": subapps,
