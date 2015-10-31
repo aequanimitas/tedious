@@ -32,14 +32,14 @@ function opOrApp(app, opt, prop) {
 
 function help(app) {
   var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(", "),
-      message = "\n" + appName + ": " + appDescription + "\n\n" +
-                "\nUsage";
+      message = "\n " + appName + ": " + appDescription + "\n\n" +
+                " Usage";
   if (keyz.length == 0) keyz = "none"
   keyz.split(", ").forEach(function(v) {
     var appInvoke = appName + " " + app.name;
-    message += "\n  " + appInvoke + " " + v;
+    message += "\n   " + appInvoke + " " + v;
   });
-  process.stdout.write(message + "\n");
+  process.stdout.write(message + "\n\n");
 }
 
 function reqArgsPresent(args) {
