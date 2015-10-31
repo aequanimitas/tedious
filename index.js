@@ -1,6 +1,6 @@
 var router = require("./router"),
     reddit = require("./reddit"),
-    tresdin = require("./tresdin"),
+    cli = require("./cli"),
     packageInfo = require("./package.json"),
     subapps = {
       "router": router,
@@ -8,7 +8,7 @@ var router = require("./router"),
     };
 
 function init() {
-  tresdin.sequential({
+  cli.sequential({
     "name": packageInfo.name,
     "description": packageInfo.description,
     "subapps": subapps,

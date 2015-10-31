@@ -31,13 +31,34 @@ function opOrApp(app, opt, prop) {
 }
 
 function help(app) {
-  var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(", ");
+  var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(", "),
+      message = "\n" + appName + ": " + appDescription + "\n\n" +
+                "\nUsage";
   if (keyz.length == 0) keyz = "none"
-  process.stdout.write("\n" + appName + ": " + appDescription + "\n\n");
-  process.stdout.write("\Usage:");
   keyz.split(", ").forEach(function(v) {
     var appInvoke = appName + " " + app.name;
-    process.stdout.write("\n  " + appInvoke + " " + v);
+    message += "\n  " + appInvoke + " " + v;
   });
-  process.stdout.write("\n");
+  process.stdout.write(message + "\n");
 }
+
+function reqArgsPresent(args) {
+
+}
+
+exports.withFlags = function(app) {
+  // check if required args exists in args
+  // if the arg is present but has no value, return a message
+  if (app.requiredArgs) {
+    console.log('app has required args');
+  }
+  var flags = app.args.filter(function(x) {
+    if (x[0] == '-') return x;
+  });
+  var opts = {};
+  flags.map(function(x) {
+    var optVal = x.split("=");
+    opts[optVal[0]] = optVal[1];
+  });
+  console.log(opts);
+};
