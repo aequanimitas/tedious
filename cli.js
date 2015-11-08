@@ -1,28 +1,33 @@
-var appName = "", appDescription = "";
 exports = module.exports = {};
-
-var messages = {
-  unOpts: function(m) { return "Unrecognized option: " + m + "\n"; }
-};
+var appName = '', 
+    appDescription = '';
+    messages = {
+      'requiredFlags': function(flags) {
+         return `required flags missing: ${flags} \n'`
+       },
+       'missingArgs': function(flagArgs) {
+          var missingArguments = flagArgs.map(removeFlagSymbols),
+              hasS = missingArguments.length > 1 ? 's' : '';
+          return '\nThe required flag' + hasS + 
+                 ' has no argument' + hasS +
+                 ': ' + missingArguments + '\n';
+       }
+    },
+    pkgInfo = require('./package.json');
 
 function circular(app, opt, args) {
-  if (opOrApp(app, opt, "subapps")) {
-    circular(app.subapps[opt], args[0], args.slice(1));
-  } else if (opOrApp(app, opt, "operations")) {
-    app.operations[opt]();
-  } else {
-//    process.stdout.write("Unrecognized option: " + opt);
-    help(app);
-  }
+  opOrApp(app, opt, 'subapps') ? 
+    circular(app.subapps[opt], args[0], args.slice(1)) : 
+    opOrApp(app,opt,'operations') ? app.operations[opt]() : help(app);
 }
 
 exports.sequential = function(app) {
+  appName = app.name || pkgInfo.name;
+  appDescription = app.description || pkgInfo.description;
   if (app.args.length == 0) {
-    app.hasOwnProperty("help") ? app.help() : help(app);
+    app.hasOwnProperty('help') ? app.help() : help(app);
     return;
   }
-  appName = app.name;
-  appDescription = app.description;
   circular(app, app.args[0], app.args.slice(1));
 }
 
@@ -31,34 +36,55 @@ function opOrApp(app, opt, prop) {
 }
 
 function help(app) {
-  var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(", "),
-      message = "\n " + appName + ": " + appDescription + "\n\n" +
-                " Usage";
-  if (keyz.length == 0) keyz = "none"
-  keyz.split(", ").forEach(function(v) {
-    var appInvoke = appName + " " + app.name;
-    message += "\n   " + appInvoke + " " + v;
+  var keyz = Object.keys(app.subapps ? app.subapps : app.operations).join(', '),
+      message = `\n${appName}: ${appDescription} \n\nUsage`; 
+  if (keyz.length == 0) keyz = 'none'
+  keyz.split(', ').forEach(function(v) {
+    message += `\n  ${appName} ${app.name} ${v}`
   });
-  process.stdout.write(message + "\n\n");
+  exitMessage(message);
 }
 
-function reqArgsPresent(args) {
+function arrDiff(x, y) {
+  return x.filter(function(a) {
+    return y.indexOf(a) < 0;
+  });
+};
 
+function flagsHasArguments(x) {
+  var t = x.split('=');
+  return (t[1] === undefined || t[1] === '')
 }
+
+function toObjPair(pairs, cb) {
+  var obj = {}
+  pairs.forEach(function(x) {
+    var t = x.split('=');
+    if (cb) t[0] = cb(t[0]);
+    obj[t[0]] = t[1];
+  });
+  return obj;
+};
+
+function removeFlagSymbols(x) {
+  return x.replace(/-|=/g, '');
+}
+
+function exitMessage(message) {
+  console.error(message);
+  process.exit(0);
+};
 
 exports.withFlags = function(app) {
-  // check if required args exists in args
-  // if the arg is present but has no value, return a message
-  if (app.requiredArgs) {
-    console.log('app has required args');
+  var missingFlags = arrDiff(app.requiredFlags, 
+                             Object.keys(toObjPair(app.args)))
+                             .map(removeFlagSymbols),
+      flagArgs = app.args.filter(flagsHasArguments);
+  if (app.requiredFlags) {
+    if (missingFlags.length > 0) exitMessage(messages['requiredFlags'](missingFlags));
   }
-  var flags = app.args.filter(function(x) {
-    if (x[0] == '-') return x;
-  });
-  var opts = {};
-  flags.map(function(x) {
-    var optVal = x.split("=");
-    opts[optVal[0]] = optVal[1];
-  });
-  console.log(opts);
-};
+  if (flagArgs.length > 0) {
+    exitMessage(messages['missingArgs'](flagArgs));
+  };
+  return toObjPair(app.args, removeFlagSymbols);
+}

@@ -9,8 +9,6 @@ var router = require("./router"),
 
 function init() {
   cli.sequential({
-    "name": packageInfo.name,
-    "description": packageInfo.description,
     "subapps": subapps,
     "args": process.argv.slice(2)
   });
