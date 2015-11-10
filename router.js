@@ -23,7 +23,7 @@ var http   = require('http'),
         appConfig.client.headers['Content-Length'] = 130;
         appConfig.client.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         var req = http.request(appConfig.client, action);
-        req.write(qs.stringify(appConfig.reboot);
+        req.write(qs.stringify(appConfig.reboot));
         req.end();
       },
       clients: function() {
@@ -34,7 +34,8 @@ var http   = require('http'),
       stats: function() {
         var action = partial(httpREH, helpers.stats);
         helpers.extend(appConfig.client, url.parse(routerUrl + idxPage));
-        http.request(appConfig.client, action).end();
+        var req = http.request(appConfig.client, action);
+        req.end();
       }
     }
 
