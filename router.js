@@ -15,8 +15,16 @@ var http   = require('http'),
     rebootPage = '/goform/formGlobal',
     operations = {
       reboot: function() { 
-        helpers.extend(appConfig.reboot, helpers.addAuth(routerUrl + rebootPage));
-        //throw new Error('Not Yet Implemented');  
+        var action = partial(httpREH, function(d) {
+          console.log(d);
+        });
+        helpers.extend(appConfig.client, helpers.addAuth(routerUrl + rebootPage));
+        appConfig.client['method'] = 'POST';
+        appConfig.client.headers['Content-Length'] = 130;
+        appConfig.client.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        var req = http.request(appConfig.client, action);
+        req.write(qs.stringify(appConfig.reboot);
+        req.end();
       },
       clients: function() {
         var action = partial(httpREH, helpers.clients);

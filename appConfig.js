@@ -1,4 +1,4 @@
-var exports = module.exports = {
+exports = module.exports = {
   client: {
     keepAlive: true,
     headers: {
@@ -9,5 +9,12 @@ var exports = module.exports = {
     },
     auth: "user:password",
     ip: 'localhost'
+  },
+  reboot: {
+    'encap':'',
+    'username':'',
+    'password':'',
+    'submit-url':'',
+    'reboot':'',
   }
 }
