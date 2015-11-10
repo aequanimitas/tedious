@@ -1,39 +1,39 @@
-var zlib    = require("zlib"),
-    url     = require("url"),
-    cheerio = require("cheerio"),
-    appConfig  = require("./appConfig.js.local"),
+var zlib    = require('zlib'),
+    url     = require('url'),
+    cheerio = require('cheerio'),
+    appConfig  = require('./appConfig.js.local'),
     exports = module.exports = {};
 
 function statPair(dom) {
   var pair = {};
   if (!dom) return {};
-  dom = cheerio.load(dom)("td");
-  pair["" + getCellText(dom[0])] = getCellText(dom[1]);
+  dom = cheerio.load(dom)('td');
+  pair['' + getCellText(dom[0])] = getCellText(dom[1]);
   return pair;
 };
 
 function cleanString(str) {
-  return str.replace(/(\r\n|\n|\r)/gm, "").trim();
+  return str.replace(/(\r\n|\n|\r)/gm, '').trim();
 };
 
 function getCellText(dom) {
-  var txt = cheerio.load(dom)("font");
+  var txt = cheerio.load(dom)('font');
   if (txt.length == 2) return txt[1].children[0].data;
-  return cleanString(cheerio.load(dom)("font").text());
+  return cleanString(cheerio.load(dom)('font').text());
 };
 
 function toProperUrlObj(urlArg) {
   var rUrl = url.parse(urlArg);
   if (rUrl.protocol == null) {
-    rUrl = url.parse("http://" + urlArg); 
+    rUrl = url.parse('http://' + urlArg); 
   }
   return rUrl;
 };
 
 function encodingHandler(response) {
-  var data     = "",
+  var data     = '',
       resEncod = response.headers['content-encoding'];
-  if (resEncod === "gzip") {
+  if (resEncod === 'gzip') {
     var gzip = zlib.createGunzip();
     response.pipe(gzip);
     data = responseEventsHandler(gzip);
@@ -63,8 +63,8 @@ exports.addAuth = function(urlPath) {
 };
 
 exports.stats = function(dom) {
-  var $statTable = cheerio.load(dom)("tr").filter(function(i, e) { 
-      if (e.attribs.hasOwnProperty('bgcolor') && e.attribs["bgcolor"] !== "#808080") {
+  var $statTable = cheerio.load(dom)('tr').filter(function(i, e) { 
+      if (e.attribs.hasOwnProperty('bgcolor') && e.attribs['bgcolor'] !== '#808080') {
          return e;
       }});
   var stats = {};
@@ -73,21 +73,21 @@ exports.stats = function(dom) {
         currentKey = Object.keys(stat)[0];
     stats[currentKey] = stat[currentKey];
   });
-  console.log("Stats");
+  console.log('Stats');
   console.log(stats);
 };
 
 exports.clients = function(dom) {
-   var $trs = cheerio.load(dom)("tr").filter(function(i, e) { 
-      if (e.attribs.hasOwnProperty('bgcolor') && e.attribs["bgcolor"] === "#b7b7b7") {
+   var $trs = cheerio.load(dom)('tr').filter(function(i, e) { 
+      if (e.attribs.hasOwnProperty('bgcolor') && e.attribs['bgcolor'] === '#b7b7b7') {
          return e;
       }});
   var clients = {};
   Array.prototype.forEach.call($trs, function(e, i) {
-    var x = cheerio.load(e)("font");
-    clients["Client " + i] = x[0].children[0].data;
+    var x = cheerio.load(e)('font');
+    clients['Client ' + i] = x[0].children[0].data;
   });
-  console.log("Clients");
+  console.log('Clients');
   console.log(clients);
 }
 

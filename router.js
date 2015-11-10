@@ -1,44 +1,49 @@
-var http   = require("http"),
+var http   = require('http'),
     exports = module.exports = {},
-    url    = require("url"),
-    appConfig = require("./appConfig.js.local").client,
-    helpers = require("./helpers"),
-    routerUrl = appConfig.ip,
+    url    = require('url'),
+    qs = require('querystring'),
+    appConfig = require('./appConfig.js.local'),
+    helpers = require('./helpers'),
+    routerUrl = appConfig.client.ip,
     partial = helpers.partial,
-    idxPage = "/globe_setup_1pwn1.asp",
-    activeClientsPage = "/admin/wlstatbl.asp",
-    urlBlocking = "/url_blocking.asp",
-    wirelessSecurity = "/wlwpa_mbssid.htm",
-    wirelessSettingsBasic = "/wlbasic.asp",
-    wirelessAdvancedSettings = "/wladvanced.asp",
+    idxPage = '/globe_setup_1pwn1.asp',
+    activeClientsPage = '/admin/wlstatbl.asp',
+    urlBlocking = '/url_blocking.asp',
+    wirelessSecurity = '/wlwpa_mbssid.htm',
+    wirelessSettingsBasic = '/wlbasic.asp',
+    wirelessAdvancedSettings = '/wladvanced.asp',
+    rebootPage = '/goform/formGlobal',
     operations = {
-      reboot: function() { throw new Error("Not Yet Implemented");  },
+      reboot: function() { 
+        helpers.extend(appConfig.reboot, helpers.addAuth(routerUrl + rebootPage));
+        //throw new Error('Not Yet Implemented');  
+      },
       clients: function() {
         var action = partial(httpREH, helpers.clients);
-        helpers.extend(appConfig, helpers.addAuth(routerUrl + activeClientsPage));
-        http.request(appConfig, action).end();
+        helpers.extend(appConfig.client, helpers.addAuth(routerUrl + activeClientsPage));
+        http.request(appConfig.client, action).end();
       },
       stats: function() {
         var action = partial(httpREH, helpers.stats);
-        helpers.extend(appConfig, url.parse(routerUrl + idxPage));
-        http.request(appConfig, action).end();
+        helpers.extend(appConfig.client, url.parse(routerUrl + idxPage));
+        http.request(appConfig.client, action).end();
       }
     }
 
 function httpREH(res, helperFn) {
-  var data = "";
+  var data = '';
   if (res.statusCode === 401) {
-     throw new Error("Unauthorized, check credentials in appConfig.js");
+     throw new Error('Unauthorized, check credentials in appConfig.js');
   }
   res
-    .on("data", function(chunk) {  
+    .on('data', function(chunk) {  
       data += chunk.toString();
     })                             
-    .on("end", function() {        
+    .on('end', function() {        
       helperFn(data);
-      console.log("Success!");
+      console.log('Success!');
     })
-    .on("error", function(err) {
+    .on('error', function(err) {
       console.log(err);
     });
 }
@@ -47,10 +52,10 @@ function init(operation) {
   if (operations.hasOwnProperty(operation)) {
     operations[operation]();
   } else {
-    console.log("Operation Unknown");
+    console.log('Operation Unknown');
   }
 };
 
 exports.init = init;
 exports.operations = operations;
-exports.name = "router";
+exports.name = 'router';
