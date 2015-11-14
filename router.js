@@ -34,8 +34,7 @@ var http   = require('http'),
       stats: function() {
         var action = partial(httpREH, helpers.stats);
         helpers.extend(appConfig.client, url.parse(routerUrl + idxPage));
-        var req = http.request(appConfig.client, action);
-        req.end();
+        http.request(appConfig.client, action).end();
       }
     }
 
