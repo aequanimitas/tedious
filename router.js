@@ -36,7 +36,7 @@ var http   = require('http'),
         helpers.extend(appConfig.client, url.parse(routerUrl + idxPage));
         http.request(appConfig.client, action).end();
       }
-    }
+    };
 
 function httpREH(res, helperFn) {
   var data = '';
