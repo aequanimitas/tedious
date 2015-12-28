@@ -10,6 +10,7 @@
     "pg-hstore": "^2.3.2"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
     "eslint": "^1.9.0",
     "mocha": "^2.3.4"
   },

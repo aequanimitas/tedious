@@ -88,3 +88,7 @@ exports.withFlags = function(app) {
   };
   return toObjPair(app.args, removeFlagSymbols);
 }
+
+module.exports = (obj) => {
+  return {};
+};
