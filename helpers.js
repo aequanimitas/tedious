@@ -68,7 +68,7 @@ exports.stats = function(dom) {
          return e;
       }});
   var stats = {};
-  Array.prototype.forEach.call($statTable, function(e) {
+  [].forEach.call($statTable, function(e) {
     var stat       = statPair(e),
         currentKey = Object.keys(stat)[0];
     stats[currentKey] = stat[currentKey];
@@ -83,7 +83,7 @@ exports.clients = function(dom) {
          return e;
       }});
   var clients = {};
-  Array.prototype.forEach.call($trs, function(e, i) {
+  [].forEach.call($trs, function(e, i) {
     var x = cheerio.load(e)('font');
     clients['Client ' + i] = x[0].children[0].data;
   });

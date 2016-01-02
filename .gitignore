@@ -8,3 +8,5 @@ node_modules
 spec/helpers/
 spec/jasmine_examples/
 *.local
+client_secret.json
+quickstart.js
