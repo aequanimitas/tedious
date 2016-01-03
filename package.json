@@ -4,6 +4,7 @@
   "description": "for things I do repeatedly",
   "main": "index.js",
   "dependencies": {
+    "bluebird": "^3.1.1",
     "bookshelf": "^0.9.0",
     "cheerio": "^0.19.0",
     "google-auth-library": "^0.9.7",
@@ -14,12 +15,13 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "eslint": "^1.9.0",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "onchange": "^2.0.0"
   },
   "scripts": {
     "test": "mocha -R spec test/*.js",
     "lint": "eslint *.js",
-    "test:watch": "npm test -- --watch"
+    "watch:bats": "onchange 'index.js' 'test/bats/*.bats' -- bats -p test/bats/*.bats"
   },
   "author": "hta",
   "license": "MIT"

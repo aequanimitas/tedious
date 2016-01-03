@@ -8,14 +8,19 @@ var router = require('./router'),
     };
 
 function init() {
-  cli.sequential({
-    'subapps': subapps,
-    'args': process.argv.slice(2),
-    'app': {
-      'name': packageInfo.name,
-      'description': packageInfo.description
-    }
-  });
+  console.log(
+    `${packageInfo.name} v${packageInfo.version}`
+  );
+  return;
+//
+//  cli.sequential({
+//    'subapps': subapps,
+//    'args': process.argv.slice(2),
+//    'app': {
+//      'name': packageInfo.name,
+//      'description': packageInfo.description
+//    }
+//  });
 }
 
 init();
