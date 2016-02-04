@@ -104,3 +104,20 @@ exports.clear = function clear() {
 exports.statPair = statPair;
 exports.getCellText = getCellText;
 exports.partial = partial
+exports.httpResponseHelper = function httpResponseHelper(res, helperFn) {
+  var data = '';
+  if (res.statusCode === 401) {
+     throw new Error('Unauthorized, check credentials in appConfig.js');
+  }
+  res
+    .on('data', function(chunk) {  
+      data += chunk.toString();
+    })                             
+    .on('end', function() {
+      helperFn(data);
+      console.log('Success!');
+    })
+    .on('error', function(err) {
+      console.log(err);
+    });
+}

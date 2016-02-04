@@ -5,12 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.1.1",
-    "bookshelf": "^0.9.0",
     "cheerio": "^0.19.0",
     "google-auth-library": "^0.9.7",
     "googleapis": "^2.1.7",
     "pg": "^4.4.2",
-    "pg-hstore": "^2.3.2"
+    "pg-hstore": "^2.3.2",
+    "vorpal": "^1.7.7"
   },
   "devDependencies": {
     "chai": "^3.4.1",
