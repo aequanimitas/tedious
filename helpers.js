@@ -41,7 +41,7 @@ function encodingHandler(response) {
   }
 };
 
-exports.extend = function() {
+module.exports.extend = function() {
   var source      = arguments[1],
       destination = arguments[0],
       sKeys       = Object.keys(source),
@@ -55,13 +55,13 @@ exports.extend = function() {
   }
 };
 
-exports.addAuth = function(urlPath) {
+module.exports.addAuth = function(urlPath) {
   var authUrl = url.parse(urlPath);
   authUrl.auth = appConfig.client.auth;
   return authUrl;
 };
 
-exports.stats = function(dom) {
+module.exports.stats = function(dom) {
   var $statTable = cheerio.load(dom)('tr').filter(function(i, e) { 
       if (e.attribs.hasOwnProperty('bgcolor') && e.attribs['bgcolor'] !== '#808080') {
          return e;
@@ -76,7 +76,7 @@ exports.stats = function(dom) {
   console.log(stats);
 };
 
-exports.clients = function(dom) {
+module.exports.clients = function(dom) {
    var $trs = cheerio.load(dom)('tr').filter(function(i, e) { 
       if (e.attribs.hasOwnProperty('bgcolor') && e.attribs['bgcolor'] === '#b7b7b7') {
          return e;
@@ -96,14 +96,14 @@ function partial(aFn, aArgFn) {
   }
 }
 
-exports.clear = function clear() {
+module.exports.clear = function clear() {
   process.stdout.write('\u001B[2J\u001B[0;0f');
 };
 
-exports.statPair = statPair;
-exports.getCellText = getCellText;
-exports.partial = partial
-exports.httpResponseHelper = function httpResponseHelper(res, helperFn) {
+module.exports.statPair = statPair;
+module.exports.getCellText = getCellText;
+module.exports.partial = partial
+module.exports.httpResponseHelper = function httpResponseHelper(res, helperFn) {
   var data = '';
   if (res.statusCode === 401) {
      throw new Error('Unauthorized, check credentials in appConfig.js');
