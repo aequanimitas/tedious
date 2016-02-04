@@ -1,8 +1,7 @@
 var zlib    = require('zlib'),
     url     = require('url'),
     cheerio = require('cheerio'),
-    appConfig  = require('./appConfig.js.local'),
-    exports = module.exports = {};
+    appConfig  = require('./appConfig.js.local');
 
 function statPair(dom) {
   var pair = {};
