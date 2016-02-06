@@ -9,4 +9,11 @@ vorpal.command('stats', 'current router stats')
      http.request(route.config, route.action).end();
   });
 
+vorpal.command('clients', 'current router stats')
+  .alias('clients')
+  .action(function(args, cb) {
+     var route = Route('clients', '/admin/wlstatbl.asp', true);
+     http.request(route.config, route.action).end();
+  });
+
 vorpal.delimiter('Tedious: ').show().parse(process.argv);

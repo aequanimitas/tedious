@@ -25,16 +25,6 @@ var http   = require('http'),
         var req = http.request(appConfig.client, action);
         req.write(qs.stringify(appConfig.reboot));
         req.end();
-      },
-      clients: function() {
-        var action = partial(httpREH, helpers.clients);
-        helpers.extend(appConfig.client, helpers.addAuth(routerUrl + activeClientsPage));
-        http.request(appConfig.client, action).end();
-      },
-      stats: function() {
-        var action = partial(httpREH, helpers.stats);
-        helpers.extend(appConfig.client, url.parse(routerUrl + idxPage));
-        http.request(appConfig.client, action).end();
       }
     };
 

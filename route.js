@@ -2,9 +2,10 @@ var url = require('url');
 var helpers = require('./helpers');
 var appConfig = require('./appConfig.js.local');
 
-function route(helper, endpoint) {
-  var config = Object.assign({}, appConfig.client)
-  helpers.extend(config, url.parse(config.ip + endpoint));
+function route(helper, endpoint, needsAuth) {
+  var config = Object.assign({}, appConfig.client);
+  var fullUrl = config.ip + endpoint;
+  helpers.extend(config, needsAuth ? helpers.addAuth(fullUrl) : url.parse(fullUrl));
   return {
     config: config,
     action: helpers.partial(helpers.httpResponseHelper, helpers[helper])
