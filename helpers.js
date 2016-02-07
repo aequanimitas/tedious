@@ -61,6 +61,10 @@ module.exports.addAuth = function(urlPath) {
   return authUrl;
 };
 
+module.exports.reboot = function(d) {
+  console.log(d);
+};
+
 module.exports.stats = function(dom) {
   var $statTable = cheerio.load(dom)('tr').filter(function(i, e) { 
       if (e.attribs.hasOwnProperty('bgcolor') && e.attribs['bgcolor'] !== '#808080') {
