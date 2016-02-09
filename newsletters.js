@@ -46,7 +46,7 @@ function newsletters(auth) {
   gmail.users.messages.list({
     auth: auth,
     userId: 'me',
-    q: 'from:'+ process.argv.slice(2)[0]
+    q: process.argv.slice(2)[0]
   }, handleMessageList);
 }
 
