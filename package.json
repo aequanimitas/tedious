@@ -8,6 +8,7 @@
     "cheerio": "^0.19.0",
     "google-auth-library": "^0.9.7",
     "googleapis": "^2.1.7",
+    "moment": "^2.11.2",
     "pg": "^4.4.2",
     "pg-hstore": "^2.3.2",
     "vorpal": "^1.7.7"
