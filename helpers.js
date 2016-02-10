@@ -1,7 +1,7 @@
 var zlib    = require('zlib'),
     url     = require('url'),
     cheerio = require('cheerio'),
-    appConfig  = require('./appConfig.js.local');
+    config  = require('./appconfig.local.json');
 
 function statPair(dom) {
   var pair = {};
@@ -57,7 +57,7 @@ module.exports.extend = function() {
 
 module.exports.addAuth = function(urlPath) {
   var authUrl = url.parse(urlPath);
-  authUrl.auth = appConfig.client.auth;
+  authUrl.auth = config.client.auth;
   return authUrl;
 };
 
@@ -110,7 +110,7 @@ module.exports.partial = partial
 module.exports.httpResponseHelper = function httpResponseHelper(res, helperFn) {
   var data = '';
   if (res.statusCode === 401) {
-     throw new Error('Unauthorized, check credentials in appConfig.js');
+     throw new Error('Unauthorized, check credentials in config.js');
   }
   res
     .on('data', function(chunk) {  

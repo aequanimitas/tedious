@@ -1,6 +1,6 @@
 var url = require('url');
 var helpers = require('./helpers');
-var appConfig = require('./appConfig.js.local');
+var appConfig = require('./appconfig.local.json');
 
 function route(helper, endpoint, needsAuth) {
   var config = Object.assign({}, appConfig.client);

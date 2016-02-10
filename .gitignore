@@ -7,6 +7,6 @@ backup/
 node_modules
 spec/helpers/
 spec/jasmine_examples/
-*.local
+*.local.json
 client_secret.json
 quickstart.js
