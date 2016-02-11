@@ -1,6 +1,7 @@
 var zlib    = require('zlib'),
     url     = require('url'),
     cheerio = require('cheerio'),
+    moment  = require('moment'),
     config  = require('./appconfig.local.json');
 
 function statPair(dom) {
@@ -77,7 +78,18 @@ module.exports.stats = function(dom) {
     stats[currentKey] = stat[currentKey];
   });
   console.log('Stats');
+  var uptime = stats['Uptime'].split(' ');
+  var uptime_time = uptime.slice(1).join('').split(':').reduce(function(a,b) {
+    if (b.length === 1) b = '0' + b;
+    a.push(b);
+    return a;
+  }, []);
+  stats['Uptime'] = {
+    lastReboot: moment(uptime_time, 'hhmmss').from(moment()),
+    uptime: stats['Uptime']
+  };
   console.log(stats);
+  return stats;
 };
 
 module.exports.clients = function(dom) {
