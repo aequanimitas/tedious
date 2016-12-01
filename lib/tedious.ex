@@ -1,0 +1,2 @@
+defmodule Tedious do
+end
