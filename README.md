@@ -1,4 +1,4 @@
-Tedious
+## Tedious
 
-Because sometimes you just can't take that awful UI anymore and you just want to manage it
-via command line.
+Application for managing repetitive activities such as browsing HN, checking news, getting
+router info and emails.
