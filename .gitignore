@@ -17,3 +17,12 @@ erl_crash.dump
 *.ez
 *.swp
 *.swo
+*.swn
+*.sqlite
+backup/
+node_modules
+spec/helpers/
+spec/jasmine_examples/
+*.local.json
+client_secret.json
+quickstart.js
