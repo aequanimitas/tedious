@@ -26,3 +26,4 @@ spec/jasmine_examples/
 *.local.json
 client_secret.json
 quickstart.js
+tedious
