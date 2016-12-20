@@ -9,14 +9,44 @@ defmodule Tedious do
 
   def process(arg) do
     modle = [Atom.to_string(__MODULE__), String.capitalize(hd(arg))] |> Module.concat
-    case Keyword.has_key? modle.module_info[:exports], String.to_atom(hd(tl(arg))) do
-      true ->
-        apply(modle, String.to_existing_atom(hd(tl(arg))), [])
-        |> inspect(pretty: true)
-        |> Logger.info
-      false ->
-        IO.puts "unknown operation: #{hd(tl(arg))}"
+    try do
+      atm = String.to_existing_atom(hd(tl(arg)))
+      apply(modle, atm, [])
+      |> inspect(pretty: true)
+      |> Logger.info
+    rescue
+      _ in ArgumentError -> IO.puts "Operation doesn't exist"
     end
+  end
+end
+
+defmodule Tedious.Yts do
+  @url "https://yts.ag/api/v2/list_movies.json?limit=10"
+
+  def init do
+    latest
+    |> decode
+    |> get_movies
+    |> Enum.map(&Tedious.Yts.description/1)
+  end
+
+  def latest do
+    {_, %HTTPoison.Response{body: body}} = HTTPoison.get @url
+    body
+  end
+
+  def description(data) do 
+    %{
+      "title" => data["title_english"]
+    }
+  end
+
+  def get_movies(lst) do
+    lst["data"]["movies"]  
+  end
+
+  def decode(body) do
+    Poison.decode! body
   end
 end
 
@@ -30,6 +60,9 @@ defmodule Tedious.Router do
     Enum.zip(headers, data) 
     |> Enum.map(&trios_to_pair/1)
     |> Enum.into(%{})
+  end
+
+  def get_headers(dom_elem) do
   end
 
   defp trios_to_pair(x) do

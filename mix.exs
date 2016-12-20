@@ -29,8 +29,9 @@ defmodule Tedious.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:floki, "~>0.11.0"},
-      {:httpoison, "~>0.9.0"}
+      {:floki, "~> 0.11.0"},
+      {:poison, "~> 3.0"},
+      {:httpoison, "~> 0.9.0"}
     ]
   end
 end
